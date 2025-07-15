@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DataLayer Viewer</title>
+    <style>
+       
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+            width: 400px;
+            height: 600px;
+        }
+
+        
+        body[data-theme='light'] {
+            background-color: #ffffff;
+            color: #333333;
+        }
+
+        body[data-theme='light'] .container {
+            background-color: #ffffff;
+        }
+
+        body[data-theme='light'] header {
+            background: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            color: #333333;
+        }
+
+        body[data-theme='light'] h1 {
+            color: #333333;
+        }
+
+        body[data-theme='light'] .gemini-toggle span {
+            color: #333333;
+        }
+
+        body[data-theme='light'] .controls button {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        body[data-theme='light'] .controls button:hover {
+            background-color: #e0e0e0;
+        }
+
+        body[data-theme='light'] .filter input {
+            background-color: #f0f0f0;
+            border-color: #ddd;
+            color: #333;
+        }
+
+        body[data-theme='light'] .event-list {
+            border-color: #eee;
+        }
+
+        body[data-theme='light'] .event-item {
+            background-color: #f9f9f9;
+            border-left-color: #6b73ff;
+        }
+
+        body[data-theme='light'] .event-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        body[data-theme='light'] .event-item h3 {
+            color: #6b73ff;
+        }
+
+        body[data-theme='light'] .event-item pre {
+            color: #555;
+        }
+
+        body[data-theme='light'] .event-meta {
+            color: #888;
+        }
+
+        body[data-theme='light'] .empty-state {
+            color: #666;
+        }
+
+        body[data-theme='light'] .settings-panel,
+        body[data-theme='light'] .gemini-panel {
+            background: #ffffff;
+            color: #333;
+        }
+
+        body[data-theme='light'] .gemini-header,
+        body[data-theme='light'] .settings-panel .gemini-header {
+            background-color: #f5f5f5;
+            border-bottom: 1px solid #eee;
+        }
+
+        body[data-theme='light'] .gemini-header h3 {
+            color: #333;
+        }
+
+        body[data-theme='light'] .close-btn {
+            color: #666;
+        }
+
+        body[data-theme='light'] .close-btn:hover {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        body[data-theme='light'] .gemini-chat {
+            background: #f9f9f9;
+        }
+
+        body[data-theme='light'] .message.user {
+            background-color: #e3f2fd;
+            color: #333;
+        }
+
+        body[data-theme='light'] .message.ai {
+            background-color: #e8f5e9; 
+            color: #333;
+        }
+
+        body[data-theme='light'] .message.system {
+            color: #777;
+        }
+
+        body[data-theme='light'] .gemini-input {
+            border-top: 1px solid #eee;
+            background-color: #f5f5f5;
+        }
+
+        body[data-theme='light'] .gemini-input textarea {
+            background-color: #f0f0f0;
+            border-color: #ddd;
+            color: #333;
+        }
+
+        body[data-theme='light'] .gemini-input textarea:focus {
+            border-color: #6b73ff;
+            box-shadow: 0 0 0 2px rgba(107, 115, 255, 0.3);
+        }
+
+        body[data-theme='light'] .gemini-input button {
+            background-color: #6b73ff;
+            color: white;
+        }
+
+        body[data-theme='light'] .gemini-input button:hover {
+            background-color: #5a67d8;
+        }
+
+        body[data-theme='dark'] {
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+
+        body[data-theme='dark'] .container {
+            background-color: #1e1e1e;
+        }
+
+        body[data-theme='dark'] header {
+            background: linear-gradient(135deg, #333 0%, #222 100%);
+            color: #f0c14b;
+        }
+
+        body[data-theme='dark'] h1 {
+            color: #f0c14b;
+        }
+
+        body[data-theme='dark'] .gemini-toggle span {
+            color: #f0c14b;
+        }
+
+        body[data-theme='dark'] .controls button {
+            background-color: #3a3a3a;
+            color: white;
+        }
+
+        body[data-theme='dark'] .controls button:hover {
+            background-color: #4a4a4a;
+        }
+
+        body[data-theme='dark'] .filter input {
+            background-color: #333;
+            border-color: #444;
+            color: white;
+        }
+
+        body[data-theme='dark'] .event-list {
+            border-color: #333;
+        }
+
+        body[data-theme='dark'] .event-item {
+            background-color: #252525;
+            border-left-color: #f0c14b;
+        }
+
+        body[data-theme='dark'] .event-item:hover {
+            background-color: #303030;
+        }
+
+        body[data-theme='dark'] .event-item h3 {
+            color: #f0c14b;
+        }
+
+        body[data-theme='dark'] .event-item pre {
+            color: #e0e0e0;
+        }
+
+        body[data-theme='dark'] .event-meta {
+            color: #aaa;
+        }
+
+        body[data-theme='dark'] .empty-state {
+            color: #888;
+        }
+
+        body[data-theme='dark'] .settings-panel,
+        body[data-theme='dark'] .gemini-panel {
+            background: #252525;
+            color: #ffffff;
+        }
+
+        body[data-theme='dark'] .gemini-header,
+        body[data-theme='dark'] .settings-panel .gemini-header {
+            background-color: #2a2a2a;
+            border-bottom: 1px solid #333;
+        }
+
+        body[data-theme='dark'] .gemini-header h3 {
+            color: #f5d179;
+        }
+
+        body[data-theme='dark'] .close-btn {
+            color: #ffffff;
+        }
+
+        body[data-theme='dark'] .close-btn:hover {
+            background-color: #444;
+            color: #f0c14b;
+        }
+
+        body[data-theme='dark'] .gemini-chat {
+            background: #2a2a2a;
+        }
+
+        body[data-theme='dark'] .message.user {
+            background-color: #007bff;
+            color: white;
+        }
+
+        body[data-theme='dark'] .message.ai {
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+        }
+
+        body[data-theme='dark'] .message.system {
+            color: #999;
+        }
+
+        body[data-theme='dark'] .gemini-input {
+            border-top: 1px solid #333;
+            background-color: #2a2a2a;
+        }
+
+        body[data-theme='dark'] .gemini-input textarea {
+            background-color: #333;
+            border-color: #555;
+            color: white;
+        }
+
+        body[data-theme='dark'] .gemini-input textarea:focus {
+            border-color: #f0c14b;
+            box-shadow: 0 0 0 2px rgba(240, 193, 75, 0.3);
+        }
+
+        body[data-theme='dark'] .gemini-input button {
+            background-color: #f0c14b;
+            color: #252525;
+        }
+
+        body[data-theme='dark'] .gemini-input button:hover {
+            background-color: #e0b03a;
+        }
+
+        body[data-theme='black'] {
+            background-color: #000000;
+            color: #f0f0f0;
+        }
+
+        body[data-theme='black'] .container {
+            background-color: #000000;
+        }
+
+        body[data-theme='black'] header {
+            background: linear-gradient(135deg, #111 0%, #000 100%);
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] h1 {
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] .gemini-toggle span {
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] .controls button {
+            background-color: #222;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+
+        body[data-theme='black'] .controls button:hover {
+            background-color: #333;
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] .filter input {
+            background-color: #111;
+            border-color: #00ff00;
+            color: #f0f0f0;
+        }
+
+        body[data-theme='black'] .event-list {
+            border-color: #222;
+        }
+
+        body[data-theme='black'] .event-item {
+            background-color: #1a1a1a;
+            border-left-color: #00ff00;
+        }
+
+        body[data-theme='black'] .event-item:hover {
+            background-color: #2a2a2a;
+        }
+
+        body[data-theme='black'] .event-item h3 {
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] .event-item pre {
+            color: #cccccc;
+        }
+
+        body[data-theme='black'] .event-meta {
+            color: #aaaaaa;
+        }
+
+        body[data-theme='black'] .empty-state {
+            color: #777;
+        }
+
+        body[data-theme='black'] .settings-panel,
+        body[data-theme='black'] .gemini-panel {
+            background: #1a1a1a;
+            color: #f0f0f0;
+        }
+
+        body[data-theme='black'] .gemini-header,
+        body[data-theme='black'] .settings-panel .gemini-header {
+            background-color: #222;
+            border-bottom: 1px solid #333;
+        }
+
+        body[data-theme='black'] .gemini-header h3 {
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] .close-btn {
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] .close-btn:hover {
+            background-color: #333;
+            color: #00ff00;
+        }
+
+        body[data-theme='black'] .gemini-chat {
+            background: #111;
+        }
+
+        body[data-theme='black'] .message.user {
+            background-color: #005500; 
+            color: #f0f0f0;
+        }
+
+        body[data-theme='black'] .message.ai {
+            background-color: #003300; 
+            color: #f0f0f0;
+        }
+
+        body[data-theme='black'] .message.system {
+            color: #888;
+        }
+
+        body[data-theme='black'] .gemini-input {
+            border-top: 1px solid #333;
+            background-color: #222;
+        }
+
+        body[data-theme='black'] .gemini-input textarea {
+            background-color: #111;
+            border-color: #00ff00;
+            color: #f0f0f0;
+        }
+
+        body[data-theme='black'] .gemini-input textarea:focus {
+            border-color: #00ff00;
+            box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.3);
+        }
+
+        body[data-theme='black'] .gemini-input button {
+            background-color: #00ff00;
+            color: #000000;
+        }
+
+        body[data-theme='black'] .gemini-input button:hover {
+            background-color: #00cc00;
+        }
+
+       
+
+        .container {
+            padding: 15px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 18px;
+            color: #f0c14b;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            flex: 1;
+        }
+
+        button:hover {
+            background-color: #444;
+        }
+
+        .filter {
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            background-color: #333;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .event-list {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .event-item {
+            background-color: #252525;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .event-item h3 {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #f0c14b;
+        }
+
+        .event-item pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-size: 12px;
+            max-height: 100px;
+            overflow: hidden;
+        }
+
+        .event-item.expanded pre {
+            max-height: none;
+        }
+
+        .event-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #aaa;
+            margin-top: 8px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+        }
+
+        
+        .gemini-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #252525;
+            z-index: 100;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gemini-panel.active {
+            right: 0;
+        }
+
+        .gemini-header {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .gemini-header h3 {
+            margin: 0;
+            color: #f0c14b;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .gemini-chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            margin-left: auto;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 10px 10px 0 10px;
+        }
+
+        .message.ai {
+            margin-right: auto;
+            background-color: #3a3a3a;
+            padding: 10px;
+            border-radius: 10px 10px 10px 0;
+        }
+
+        .message.system {
+            text-align: center;
+            color: #888;
+            font-size: 12px;
+            margin: 10px auto;
+        }
+
+        .gemini-input {
+            padding: 15px;
+            border-top: 1px solid #333;
+            display: flex;
+            gap: 10px;
+        }
+
+        .gemini-input textarea {
+            flex: 1;
+            padding: 10px;
+            background-color: #333;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+            resize: none;
+            height: 60px;
+        }
+
+        .gemini-input button {
+            align-self: flex-end;
+            height: 40px;
+        }
+
+      
+        .settings-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background: #252525;
+            z-index: 100;
+            transition: right 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .settings-panel.active {
+            right: 0;
+        }
+
+        .settings-content {
+            padding: 15px;
+            flex: 1;
+        }
+
+        .api-key-input {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .api-key-input label {
+            font-size: 14px;
+        }
+
+        .api-key-input input {
+            padding: 8px;
+            background: #333;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .api-key-help {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .api-key-help a {
+            color: #f0c14b;
+            text-decoration: none;
+        }
+
+        .settings-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+    
+        .message.ai.thinking:after {
+            content: '...';
+            animation: dots 1.5s steps(5, end) infinite;
+            display: inline-block;
+            width: 20px;
+        }
+
+        @keyframes dots {
+            0%, 20% {
+                content: '.';
+            }
+            40% {
+                content: '..';
+            }
+            60%, 100% {
+                content: '...';
+            }
+        }
+
+        .settings-icon {
+            width: 15px;
+            height: 15px;
+            margin-top: 10px;
+        }
+
+        .gemini-toggle {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1px;
+            align-self: center;
+            justify-items: center;
+            cursor: pointer;
+        }
+
+        .gemini-toggle img {
+            margin-top: 4px;
+            width: 25px;
+            height: 25px;
+        }
+
+        .gemini-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            height: 100%;
+            background-color: #1a1a1a;
+            z-index: 100;
+            transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .gemini-panel.active {
+            right: 0;
+        }
+
+        .gemini-header {
+            padding: 18px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+            background-color: #2a2a2a;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .gemini-header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #f5d179;
+            letter-spacing: 0.5px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 22px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .close-btn:hover {
+            background-color: #444;
+            color: #f0c14b;
+        }
+
+        .gemini-chat {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+
+        .gemini-chat::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .gemini-chat::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 10px;
+        }
+
+        .gemini-chat::-webkit-scrollbar-thumb {
+            background-color: #555;
+            border-radius: 10px;
+            border: 2px solid #2a2a2a;
+        }
+
+        .gemini-chat::-webkit-scrollbar-thumb:hover {
+            background-color: #777;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            max-width: 85%;
+            padding: 12px 18px;
+            border-radius: 18px;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            margin-left: auto;
+            background-color: #007bff;
+            color: white;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+        }
+
+        .message.ai {
+            margin-right: auto;
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .message.ai.thinking {
+            background-color: #4a4a4a;
+            font-style: italic;
+            color: #b0b0b0;
+        }
+
+        .message.system {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin: 15px auto;
+            font-style: italic;
+        }
+
+        .gemini-input {
+            padding: 15px;
+            border-top: 1px solid #333;
+            display: flex;
+            gap: 10px;
+            background-color: #2a2a2a;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .gemini-input textarea {
+            flex: 1;
+            padding: 12px;
+            background-color: #333;
+            border: 1px solid #555;
+            color: white;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 50px;
+            max-height: 150px;
+            font-size: 15px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .gemini-input textarea:focus {
+            outline: none;
+            border-color: #f0c14b;
+            box-shadow: 0 0 0 2px rgba(240, 193, 75, 0.3);
+        }
+
+        .gemini-input button {
+            align-self: flex-end;
+            height: 45px;
+            padding: 0 20px;
+            background-color: #f0c14b;
+            color: #252525;
+            font-weight: bold;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .gemini-input button:hover {
+            background-color: #e0b03a;
+            transform: translateY(-1px);
+        }
+
+        .gemini-input button:active {
+            transform: translateY(0);
+        }
+
+
+        .message.ai.thinking p:after {
+            content: '...';
+            animation: dots 1.5s steps(5, end) infinite;
+            display: inline-block;
+            width: 25px;
+            vertical-align: bottom;
+        }
+
+        @keyframes dots {
+            0%, 20% {
+                content: '.';
+            }
+            40% {
+                content: '..';
+            }
+            60%, 100% {
+                content: '...';
+            }
+        }
+
+
+        .gemini-toggle {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background-color 0.2s ease;
+        }
+
+        .gemini-toggle:hover {
+            background-color: #333;
+        }
+
+        .gemini-toggle img {
+            margin-top: 0px;
+            width: 22px;
+            height: 22px;
+        }
+
+        .gemini-toggle span {
+            color: #f0c14b;
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+
+        button {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            flex: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        button:hover {
+            background-color: #666;
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+
+        .controls button {
+            flex: 1;
+            padding: 10px;
+            font-size: 15px;
+            background-color: #4a4a4a;
+        }
+
+        .controls button:hover {
+            background-color: #5a5a5a;
+        }
+
+        .theme-switcher {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            background-color: #2a2a2a;
+            border-bottom: 1px solid #333;
+        }
+
+        .theme-switcher button {
+            flex: 1;
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #3a3a3a;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .theme-switcher button:hover {
+            background-color: #4a4a4a;
+            border-color: #f0c14b;
+        }
+
+        .theme-switcher button.active {
+            background-color: #f0c14b; 
+            color: #252525;
+            border-color: #f0c14b;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(240, 193, 75, 0.4);
+        }
+
+
+        [data-theme='light'] {
+            --background-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: linear-gradient(135deg, #e0e0e0 0%, #c0c0c0 100%);
+            --header-text: #333333;
+            --button-bg: #f0f0f0;
+            --button-hover-bg: #e0e0e0;
+            --input-bg: #f0f0f0;
+            --input-border: #ddd;
+            --input-text: #333;
+            --panel-bg: #ffffff;
+            --panel-header-bg: #f5f5f5;
+            --panel-header-border: #eee;
+            --panel-header-text: #333;
+            --close-btn-color: #666;
+            --close-btn-hover-bg: #e0e0e0;
+            --close-btn-hover-color: #333;
+            --chat-bg: #f9f9f9;
+            --user-message-bg: #e3f2fd;
+            --user-message-text: #333;
+            --ai-message-bg: #e8f5e9;
+            --ai-message-text: #333;
+            --system-message-color: #777;
+            --gemini-input-border-top: #eee;
+            --gemini-input-bg: #f5f5f5;
+            --gemini-input-textarea-bg: #f0f0f0;
+            --gemini-input-textarea-border: #ddd;
+            --gemini-input-textarea-text: #333;
+            --gemini-input-textarea-focus-border: #6b73ff;
+            --gemini-input-textarea-focus-shadow: rgba(107, 115, 255, 0.3);
+            --gemini-input-button-bg: #6b73ff;
+            --gemini-input-button-color: white;
+            --gemini-input-button-hover-bg: #5a67d8;
+            --event-item-bg: #f9f9f9;
+            --event-item-border-left: #6b73ff;
+            --event-item-hover-bg: #f0f0f0;
+            --event-item-h3-color: #6b73ff;
+            --event-item-pre-color: #555;
+            --event-meta-color: #888;
+            --empty-state-color: #666;
+        }
+
+        [data-theme='dark'] {
+            --background-color: #1e1e1e;
+            --text-color: #ffffff;
+            --header-bg: linear-gradient(135deg, #333 0%, #222 100%);
+            --header-text: #f0c14b;
+            --button-bg: #3a3a3a;
+            --button-hover-bg: #4a4a4a;
+            --input-bg: #333;
+            --input-border: #444;
+            --input-text: white;
+            --panel-bg: #252525;
+            --panel-header-bg: #2a2a2a;
+            --panel-header-border: #333;
+            --panel-header-text: #f5d179;
+            --close-btn-color: #ffffff;
+            --close-btn-hover-bg: #444;
+            --close-btn-hover-color: #f0c14b;
+            --chat-bg: #2a2a2a;
+            --user-message-bg: #007bff;
+            --user-message-text: white;
+            --ai-message-bg: #3a3a3a;
+            --ai-message-text: #e0e0e0;
+            --system-message-color: #999;
+            --gemini-input-border-top: #333;
+            --gemini-input-bg: #2a2a2a;
+            --gemini-input-textarea-bg: #333;
+            --gemini-input-textarea-border: #555;
+            --gemini-input-textarea-text: white;
+            --gemini-input-textarea-focus-border: #f0c14b;
+            --gemini-input-textarea-focus-shadow: rgba(240, 193, 75, 0.3);
+            --gemini-input-button-bg: #f0c14b;
+            --gemini-input-button-color: #252525;
+            --gemini-input-button-hover-bg: #e0b03a;
+            --event-item-bg: #252525;
+            --event-item-border-left: #f0c14b;
+            --event-item-hover-bg: #303030;
+            --event-item-h3-color: #f0c14b;
+            --event-item-pre-color: #e0e0e0;
+            --event-meta-color: #aaa;
+            --empty-state-color: #888;
+        }
+
+        [data-theme='black'] {
+            --background-color: #000000;
+            --text-color: #f0f0f0;
+            --header-bg: linear-gradient(135deg, #111 0%, #000 100%);
+            --header-text: #00ff00;
+            --button-bg: #222;
+            --button-hover-bg: #333;
+            --input-bg: #111;
+            --input-border: #00ff00;
+            --input-text: #f0f0f0;
+            --panel-bg: #1a1a1a;
+            --panel-header-bg: #222;
+            --panel-header-border: #333;
+            --panel-header-text: #00ff00;
+            --close-btn-color: #00ff00;
+            --close-btn-hover-bg: #333;
+            --close-btn-hover-color: #00ff00;
+            --chat-bg: #111;
+            --user-message-bg: #005500;
+            --user-message-text: #f0f0f0;
+            --ai-message-bg: #003300;
+            --ai-message-text: #f0f0f0;
+            --system-message-color: #888;
+            --gemini-input-border-top: #333;
+            --gemini-input-bg: #222;
+            --gemini-input-textarea-bg: #111;
+            --gemini-input-textarea-border: #00ff00;
+            --gemini-input-textarea-text: #f0f0f0;
+            --gemini-input-textarea-focus-border: #00ff00;
+            --gemini-input-textarea-focus-shadow: rgba(0, 255, 0, 0.3);
+            --gemini-input-button-bg: #00ff00;
+            --gemini-input-button-color: #000000;
+            --gemini-input-button-hover-bg: #00cc00;
+            --event-item-bg: #1a1a1a;
+            --event-item-border-left: #00ff00;
+            --event-item-hover-bg: #2a2a2a;
+            --event-item-h3-color: #00ff00;
+            --event-item-pre-color: #cccccc;
+            --event-meta-color: #aaaaaa;
+            --empty-state-color: #777;
+        }
+
+     
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            background-color: var(--background-color);
+        }
+
+        header {
+            background: var(--header-bg);
+            color: var(--header-text);
+        }
+
+        h1 {
+            color: var(--header-text);
+        }
+
+        .gemini-toggle span {
+            color: var(--header-text);
+        }
+
+        .controls button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+        }
+
+        .controls button:hover {
+            background-color: var(--button-hover-bg);
+        }
+
+        .filter input {
+            background-color: var(--input-bg);
+            border-color: var(--input-border);
+            color: var(--input-text);
+        }
+
+        .event-list {
+            border-color: var(--input-border);
+        }
+
+        .event-item {
+            background-color: var(--event-item-bg);
+            border-left-color: var(--event-item-border-left);
+        }
+
+        .event-item:hover {
+            background-color: var(--event-item-hover-bg);
+        }
+
+        .event-item h3 {
+            color: var(--event-item-h3-color);
+        }
+
+        .event-item pre {
+            color: var(--event-item-pre-color);
+        }
+
+        .event-meta {
+            color: var(--event-meta-color);
+        }
+
+        .empty-state {
+            color: var(--empty-state-color);
+        }
+
+        .settings-panel,
+        .gemini-panel {
+            background: var(--panel-bg);
+            color: var(--text-color);
+        }
+
+        .gemini-header,
+        .settings-panel .gemini-header {
+            background-color: var(--panel-header-bg);
+            border-bottom: 1px solid var(--panel-header-border);
+        }
+
+        .gemini-header h3 {
+            color: var(--panel-header-text);
+        }
+
+        .close-btn {
+            color: var(--close-btn-color);
+        }
+
+        .close-btn:hover {
+            background-color: var(--close-btn-hover-bg);
+            color: var(--close-btn-hover-color);
+        }
+
+        .gemini-chat {
+            background: var(--chat-bg);
+        }
+
+        .message.user {
+            background-color: var(--user-message-bg);
+            color: var(--user-message-text);
+        }
+
+        .message.ai {
+            background-color: var(--ai-message-bg);
+            color: var(--ai-message-text);
+        }
+
+        .message.system {
+            color: var(--system-message-color);
+        }
+
+        .gemini-input {
+            border-top: 1px solid var(--gemini-input-border-top);
+            background-color: var(--gemini-input-bg);
+        }
+
+        .gemini-input textarea {
+            background-color: var(--gemini-input-textarea-bg);
+            border-color: var(--gemini-input-textarea-border);
+            color: var(--gemini-input-textarea-text);
+        }
+
+        .gemini-input textarea:focus {
+            border-color: var(--gemini-input-textarea-focus-border);
+            box-shadow: 0 0 0 2px var(--gemini-input-textarea-focus-shadow);
+        }
+
+        .gemini-input button {
+            background-color: var(--gemini-input-button-bg);
+            color: var(--gemini-input-button-color);
+        }
+
+        .gemini-input button:hover {
+            background-color: var(--gemini-input-button-hover-bg);
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>DataLayer Viewer</h1>
+        <div class="settings-toggle" id="settingsToggle">
+            <img src="../icons/settings.png" class="settings-icon" alt="Settings">
+        </div>
+        <div class="gemini-toggle" id="geminiToggle">
+            <img src="../icons/gemini-icon.svg" class="settings-icon1" alt="Gemini"/>
+            <span>AI Assistant</span>
+        </div>
+    </header>
+    <div class="theme-switcher">
+        <button id="themeAuto">Auto</button>
+        <button id="themeLight">Light</button>
+        <button id="themeDark">Dark</button>
+        <button id="themeBlack">Black</button>
+    </div>
+
+    <div class="controls">
+        <button id="showAnalyticsBtn">Analytics</button>
+        <button id="refreshBtn">Refresh</button>
+        <button id="clearBtn">Clear</button>
+        <button id="exportBtn">Export JSON</button>
+    </div>
+
+    <div class="filter">
+        <input type="text" id="filterInput" placeholder="Filter events...">
+    </div>
+
+    <div class="event-list" id="eventList">
+        <div class="empty-state">
+            <p>No DataLayer events detected yet.</p>
+            <p>Navigate the page to see events.</p>
+        </div>
+    </div>
+
+    <div class="gemini-panel" id="geminiPanel">
+        <div class="gemini-header">
+            <h3>Gemini AI Assistant</h3>
+            <div class="close-btn" id="closeGemini">X</div>
+        </div>
+        <div class="gemini-chat" id="geminiChat">
+            <div class="message ai">
+                <p>Hello! I can help you analyze the DataLayer events. Ask me anything about the data being pushed.</p>
+            </div>
+        </div>
+        <div class="gemini-input">
+            <textarea id="geminiInput" placeholder="Ask about the DataLayer..."></textarea>
+            <button id="sendGemini">Send</button>
+        </div>
+    </div>
+
+    <div class="settings-panel" id="settingsPanel">
+        <div class="gemini-header">
+            <h3>Settings</h3>
+            <div class="close-btn" id="closeSettings">X</div>
+        </div>
+        <div class="settings-content">
+            <div class="api-key-input">
+                <label for="apiKeyInput">Gemini API Key:</label>
+                <input type="password" id="apiKeyInput" placeholder="Enter your Gemini API key">
+                <button id="saveApiKey">Save</button>
+            </div>
+            <p class="api-key-help">
+                Get your API key from <a href="https://ai.google.dev/" target="_blank">Google AI Studio</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
