@@ -1,4 +1,4 @@
-# DataLayer Viewer with Gemini AI
+# DataLayer Viewer 
 
 ![Extension Screenshot](screenshot.png)
 
@@ -62,4 +62,4 @@ MIT © 2025 Natnael Getachew
 
 - **Author**: Natnael Getachew
 - **Email**: [natnaeln4d@gmail.com](mailto:natnaeln4d@gmail.com)
-- **GitHub**: [https://github.com/natnaeln4d](#) (optional)
+- **GitHub**: [https://github.com/natnaeln4d]
