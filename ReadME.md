@@ -1,4 +1,4 @@
-# DataLayer Viewer 
+# Chrome Extension for DataLayer Visualization
 
 ![Extension Screenshot](screenshot.png)
 
