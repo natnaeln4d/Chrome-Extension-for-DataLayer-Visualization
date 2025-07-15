@@ -1,7 +1,7 @@
 # Chrome Extension for DataLayer Visualization
 
 <div align="center">
-  <img src="screenshot.png" alt="Extension Screenshot" width="45%" />
+  <img src="screenshot1.png" alt="Extension Screenshot" width="45%" />
   <img src="screenshot2.png" alt="Extension Screenshot 2" width="45%" />
 </div>
 
